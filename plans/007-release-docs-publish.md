@@ -103,7 +103,7 @@ enabled by installer DEFAULT (`--plugin off` to skip); presence of the
 installed artifact enables the feature; removal disables; restart required.
 Code below line 12 untouched.
 Verify: `git diff -- .opencode/plugin/continuation-enforcer.ts` shows ONLY
-comment lines changed; `npm run build` still green (comment is dropped by
+comment lines changed; `pnpm run build` still green (comment is dropped by
 bundler anyway).
 
 ### Step 4: README rewrite (installer contract)
@@ -129,8 +129,8 @@ no remaining "copy or symlink" manual-install instruction
 
 ### Step 5: CI (optional but recommended)
 
-`.github/workflows/ci.yml`: on push/PR — setup Node 20 + Bun, `npm install`,
-`npm test`, `npm run verify:pack`. Single job, no matrix needed for v0.1.0.
+`.github/workflows/ci.yml`: on push/PR — setup Node 20 + Bun, `pnpm install`,
+`pnpm test`, `pnpm run verify:pack`. Single job, no matrix needed for v0.1.0.
 Verify: YAML parses (`node -e "require('fs')" && npx --yes yaml-lint
 .github/workflows/ci.yml` or equivalent); skip gracefully if user declines CI.
 
@@ -144,7 +144,7 @@ Verify: LICENSE exists; package.json license field set.
 ### Step 7: Publish procedure (owner-approved)
 
 1. Confirm clean tree: `git status` empty.
-2. `npm run prepack && npm run verify:pack` locally.
+2. `pnpm run prepack && pnpm run verify:pack` locally.
 3. `npm publish` (add `--access public` if scoped name).
 4. Post-publish smoke: `npm view <name>@0.1.0` shows the tarball;
    in a `mktemp -d` project: `npx <name>@0.1.0 install --dry-run` prints the

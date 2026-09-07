@@ -201,7 +201,7 @@ Verify: `node --test tests/manifest.test.mjs` → all pass (green).
 ### Step 7: Generate and commit the real manifest; ignore build output
 
 Add root `.gitignore`: `node_modules/`, `dist/`, `*.bak.*`, `.staging-*`.
-Run `npm run build && npm run gen:manifest`. Spot-check one hash:
+Run `pnpm run build && pnpm run gen:manifest`. Spot-check one hash:
 `sha256sum .opencode/agent/sisyphus.md` equals the manifest entry (lowercase hex).
 Commit manifest.json (dist/ stays ignored — regenerated at prepack, Plan 007).
 

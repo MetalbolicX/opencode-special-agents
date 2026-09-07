@@ -41,7 +41,7 @@ copy-only distribution is exactly this visibility, so it must be first-class.
 | Purpose | Command | Expected on success |
 |---|---|---|
 | All installer tests | `node --test tests/install.test.mjs tests/cli-extra.test.mjs` | all pass |
-| Full regression | `npm run build && node --test && bun test tests/continuation-state.test.ts` | green |
+| Full regression | `pnpm run build && node --test && bun test tests/continuation-state.test.ts` | green |
 
 ## Scope
 

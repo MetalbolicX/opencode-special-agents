@@ -43,7 +43,7 @@ Architecture locked by the finalized plan (do not revisit):
 - `install.mjs` does not exist. `package.json` already declares
   `"bin": {"opencode-special-agents": "./install.mjs"}` (Plan 004).
 - `manifest.json` exists at repo root with 12 file entries (schema v1).
-- `dist/plugin/continuation-enforcer.js` builds via `npm run build`.
+- `dist/plugin/continuation-enforcer.js` builds via `pnpm run build`.
 - No CLI-test infrastructure exists yet. OpenCode installed (1.18.29) for the
   final hand-test (Plan 007, not this plan).
 
@@ -54,7 +54,7 @@ Architecture locked by the finalized plan (do not revisit):
 | Installer tests | `node --test tests/install.test.mjs` | all pass |
 | Manifest tests (regression) | `node --test tests/manifest.test.mjs` | all pass |
 | Plugin tests (regression) | `bun test tests/continuation-state.test.ts` | 29 pass |
-| Build (before testing install) | `npm run build && npm run gen:manifest` | exit 0 |
+| Build (before testing install) | `pnpm run build && pnpm run gen:manifest` | exit 0 |
 
 ## Suggested executor toolkit
 
@@ -196,10 +196,10 @@ Make `install.mjs` executable (shebang `#!/usr/bin/env node`, `chmod +x`).
 Add to root `package.json` (deferred from Plan 004 — npm links bin targets at
 install time, so the file must exist first):
 `"bin": {"opencode-special-agents": "./install.mjs"}`.
-Verify the link: `npm install` (re-run to refresh .bin) then
+Verify the link: `pnpm install` (re-run to refresh .bin) then
 `./node_modules/.bin/opencode-special-agents --help` prints usage.
 Add `test:installer` script. Full suite:
-`npm run build && npm run gen:manifest && node --test tests/manifest.test.mjs tests/install.test.mjs && bun test tests/continuation-state.test.ts`.
+`pnpm run build && pnpm run gen:manifest && node --test tests/manifest.test.mjs tests/install.test.mjs && bun test tests/continuation-state.test.ts`.
 
 ## Test plan
 
