@@ -16,7 +16,7 @@ no commit SHA for drift comparison.
 | 006 | Implement uninstall, update, status, and doctor with strict TDD | P1 | L | 005 | DONE |
 | 007 | Release engineering, documentation, and publish | P2 | M | 006 | IN PROGRESS |
 | 008 | Tighten agent and command prompt text (anti-hallucination) | P2 | M | - | DONE |
-| 009 | Fix bin-shim no-op and doctor false-ok, ship 0.1.1 | P1 | S | - | TODO |
+| 009 | Fix bin-shim no-op and doctor false-ok, ship 0.1.1 | P1 | S | - | DONE |
 
 Status values: `TODO`, `IN PROGRESS`, `DONE`, `BLOCKED`, `REJECTED`.
 
