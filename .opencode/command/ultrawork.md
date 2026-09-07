@@ -9,23 +9,24 @@ Invoke this command when a bounded goal with clear acceptance criteria is ready 
 
 ## Inputs
 
-- `$ARGUMENTS` — the goal to execute. Should be a specific, bounded task (e.g., "implement feature X", "fix bug Y", "add tests for Z"). If the goal is too large to be completed in one session, ask the user to narrow the scope before proceeding.
+- `$ARGUMENTS` — the goal to execute. Should be a specific, bounded task (e.g., "implement feature X", "fix bug Y", "add tests for Z"). If the goal needs more than one delegation round per todo, ask the user to narrow scope.
 
 ## What this command does
 
 1. **Establish the bounded goal** — confirm the exact deliverable and what "done" means. Ask the user to specify acceptance criteria if none are provided.
 2. **Create explicit todos** — break the goal into concrete, ordered todos. Each todo must have a single clear deliverable.
+
+   Todo discipline: keep exactly one in-progress todo per delegated unit.
+   Command workflows that define a todo pipeline may keep an ordered list;
+   advance items sequentially, never two in parallel.
 3. **Delegate by role** — assign each todo to the appropriate specialist:
-   - Implementation tasks → Hephaestus (autonomous, cannot redelegate).
-   - Decision questions → Prometheus (returns a plan for that decision).
-   - Architecture or security review → Oracle.
-   - Evidence gathering → Scout or Librarian.
+   Route by role: read-only reconnaissance → Scout; documentation and external-source needs → Librarian; planning and interviews of evidence → Prometheus; gap and consistency analysis → Metis; adversarial refutation → Momus; tradeoff and security advisory → Oracle; implementation and debugging → Hephaestus.
 4. **Verify results** — before marking a todo complete, confirm the delegated agent's output meets the acceptance criteria for that step.
 5. **Stop on completion or blocker** — when all todos are complete, report success with verification evidence. When a blocker is hit, report it with evidence, what was attempted, and what remains.
 
 ## What this command does not do
 
-- It does not provide OmO's hook-enforced autonomous loop. Markdown cannot observe lifecycle events or continue execution without an explicit user or orchestrator trigger.
+- This command does not create an autonomous loop; execution ends when todos complete or a STOP condition fires.
 - It does not redelegate completed todos or retry failed ones automatically. Each stop is explicit and reported to the user.
 
 ## Outputs

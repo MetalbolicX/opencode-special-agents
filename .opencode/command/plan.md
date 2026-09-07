@@ -15,7 +15,7 @@ Invoke this command when a user needs a structured plan for a goal, feature, or 
 
 1. **Gather evidence** — explore the repository to understand the current state relevant to the goal. Use Scout or Librarian to ground the plan in existing reality.
 2. **Delegate a draft to Prometheus** — hand off the evidence and goal to Prometheus, asking for a structured plan with goal, prerequisites, steps, and verification criteria.
-3. **Identify unresolved owner decisions** — if Prometheus returns questions, present only those to the user. Do not proceed past this step until the user answers them.
+3. **Identify unresolved owner decisions** — if Prometheus's report has a `## Questions` section, present exactly those questions to the user and wait.
 4. **Run Metis** — pass the draft plan to Metis and ask for blocker, important, and advisory findings.
 5. **Run Oracle and Momus independently** — pass the plan to Oracle for architecture and tradeoff review, and to Momus for blocker refutation, in parallel.
 6. **Resolve or report** — if blockers exist, report them clearly to the user and stop. If no blockers remain, return the finalized plan.
@@ -28,17 +28,17 @@ Invoke this command when a user needs a structured plan for a goal, feature, or 
 ## STOP conditions
 
 - The user has not provided or clarified a goal.
-- Metis surfaces a blocker and the user does not resolve it.
+- The user explicitly declines, or two relay rounds pass without an answer.
 - Momus surfaces an evidence-backed refutation that cannot be re-planned around.
 - The user explicitly asks to stop.
 
 ## Markdown does not enforce execution
 
-This command file is Markdown — text that describes intended behavior. It does not mechanically run agents, enforce delegation, or guarantee completion. The described workflow is executed only when Sisyphus (or the orchestrator) explicitly invokes the named subagents in the described sequence.
+This command file is Markdown — text that describes intended behavior, not a mechanically enforced workflow.
 
 ## Safe notepad use
 
-If durable working context is needed across long or multi-session planning, Sisyphus may use `.agents/notepads/<sanitized-goal>/` with:
+If durable working context is needed across long or multi-session planning, Sisyphus may use `.agents/notepads/<sanitized-goal>/` (sanitized: `[a-z0-9-]` only, spaces → hyphens, max 40 chars, directory created on first use) with:
 - `goal.md` — the user's stated goal and any clarified decisions.
 - `findings.md` — evidence gathered by Librarian, Metis, Oracle, and Momus.
 - `plan.md` — the draft or finalized plan.

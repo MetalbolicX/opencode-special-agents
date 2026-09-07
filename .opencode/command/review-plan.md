@@ -15,8 +15,13 @@ Invoke this command when a plan exists and needs structured adversarial review b
 
 1. **Load the plan** — read the plan file or parse the provided content. If a path is given, confirm the file exists before proceeding.
 2. **Run Metis** — pass the plan to Metis asking for: missing dependencies, hidden assumptions, unverifiable acceptance criteria, incomplete scope, and contradictions. Metis focuses on what is absent or broken.
+
+   Boundary: Metis finds what is missing or contradictory inside the plan
+   (gaps, undefined terms, unverifiable criteria). Momus attacks a complete
+   plan that cannot work as written (mechanisms that break). Metis does not
+   judge feasibility; Momus does not report gaps.
 3. **Run Momus** — pass the same plan to Momus asking for evidence-backed blockers only. Momus does not offer alternatives; it refutes what cannot work.
-4. **Validate findings against repository evidence** — before reporting any finding, check whether existing code, configuration, or git history substantiates it. Discard findings that cannot be evidenced.
+4. **Validate findings against repository evidence** — before reporting any finding, check whether existing code, configuration, or git history substantiates it. When validation contradicts a reviewer finding, report the contradiction to the user; do not silently discard either side.
 5. **Return categorized findings** — present findings grouped as: **Blockers** (must resolve before proceeding), **Important** (high risk if ignored), **Advisory** (worth noting but not blocking).
 
 ## Outputs
@@ -25,7 +30,7 @@ Invoke this command when a plan exists and needs structured adversarial review b
   - Its category (blocker / important / advisory).
   - The specific plan claim or omission it targets.
   - The evidence supporting the finding.
-  - A suggested resolution or clarification.
+   - Momus findings carry no resolutions; route resolution requests to Oracle.
 - If no blockers are found, state that explicitly.
 
 ## STOP conditions
@@ -36,7 +41,7 @@ Invoke this command when a plan exists and needs structured adversarial review b
 
 ## Markdown does not enforce execution
 
-This command file is Markdown — text that describes intended behavior. It does not mechanically run agents, enforce delegation, or guarantee completion. The described workflow is executed only when Sisyphus (or the orchestrator) explicitly invokes Metis and Momus in the described sequence.
+This command file is Markdown — text that describes intended behavior, not a mechanically enforced workflow.
 
 ## Safe notepad use
 
