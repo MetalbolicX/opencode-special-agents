@@ -5,9 +5,11 @@
  * non-blocking continuation prompt per session. Guards: in-flight, unchanged
  * fingerprint, and continuation cap. Fails closed on API errors.
  *
- * Opt-in: present in .opencode/plugin/continuation-enforcer.ts enables the
- * feature. Removal disables it. State is in-memory and session-local;
- * restart resets all continuation state.
+ * Enabled by installer DEFAULT: the installer places this artifact at
+ * .opencode/plugin/continuation-enforcer.js with --plugin on (the default).
+ * Use --plugin off during install to skip the plugin. Removing the installed
+ * plugin/continuation-enforcer.js file disables the feature. State is in-memory
+ * and session-local; restart resets all continuation state.
  */
 
 import type { Plugin } from "@opencode-ai/plugin";

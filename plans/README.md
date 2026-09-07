@@ -14,7 +14,7 @@ no commit SHA for drift comparison.
 | 004 | Build the dist artifact and manifest foundation | P1 | M | - | DONE |
 | 005 | Implement the install transaction with strict TDD | P1 | L | 004 | DONE |
 | 006 | Implement uninstall, update, status, and doctor with strict TDD | P1 | L | 005 | DONE |
-| 007 | Release engineering, documentation, and publish | P2 | M | 006 | TODO |
+| 007 | Release engineering, documentation, and publish | P2 | M | 006 | IN PROGRESS |
 
 Status values: `TODO`, `IN PROGRESS`, `DONE`, `BLOCKED`, `REJECTED`.
 
