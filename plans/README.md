@@ -12,7 +12,7 @@ no commit SHA for drift comparison.
 | 002 | Add the planning and review workflow | P1 | M | 001 | DONE |
 | 003 | Add bounded idle continuation | P2 | M | 001, 002 | DONE |
 | 004 | Build the dist artifact and manifest foundation | P1 | M | - | DONE |
-| 005 | Implement the install transaction with strict TDD | P1 | L | 004 | TODO |
+| 005 | Implement the install transaction with strict TDD | P1 | L | 004 | DONE |
 | 006 | Implement uninstall, update, status, and doctor with strict TDD | P1 | L | 005 | TODO |
 | 007 | Release engineering, documentation, and publish | P2 | M | 006 | TODO |
 

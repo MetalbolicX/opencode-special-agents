@@ -8,6 +8,9 @@
     "pnpm": ">=9"
   },
   "packageManager": "pnpm@11.25.0",
+  "bin": {
+    "opencode-special-agents": "./install.mjs"
+  },
   "devDependencies": {
     "@opencode-ai/plugin": "1.18.29",
     "rolldown": "1.0.0"
@@ -15,6 +18,7 @@
   "scripts": {
     "build": "pnpm exec rolldown -c && node scripts/verify-build.mjs",
     "gen:manifest": "node scripts/gen-manifest.mjs",
+    "test:installer": "node --test tests/install.test.mjs",
     "test:plugin": "bun test tests/continuation-state.test.ts",
     "test": "node --test tests/*.test.mjs && bun test tests/continuation-state.test.ts"
   }
