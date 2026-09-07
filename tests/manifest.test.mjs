@@ -10,15 +10,15 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // ---------------------------------------------------------------------------
 // Helper: compute sha256 of a file
 // ---------------------------------------------------------------------------
-function sha256File(path) {
+const sha256File = (path) => {
   const data = readFileSync(path);
   return createHash("sha256").update(data).digest("hex");
-}
+};
 
 // ---------------------------------------------------------------------------
 // Helper: create a temp directory with payload fixtures
 // ---------------------------------------------------------------------------
-function createTempPayload(tmpDir) {
+const createTempPayload = (tmpDir) => {
   mkdirSync(join(tmpDir, ".opencode", "agent"), { recursive: true });
   mkdirSync(join(tmpDir, ".opencode", "command"), { recursive: true });
   mkdirSync(join(tmpDir, "dist", "plugin"), { recursive: true });
@@ -27,7 +27,7 @@ function createTempPayload(tmpDir) {
   writeFileSync(join(tmpDir, ".opencode", "agent", "sisyphus.md"), "# Sisyphus\n");
   writeFileSync(join(tmpDir, ".opencode", "command", "plan.md"), "# Plan\n");
   writeFileSync(join(tmpDir, "dist", "plugin", "continuation-enforcer.js"), "const plugin = {};\nexport default plugin;\n");
-}
+};
 
 // ---------------------------------------------------------------------------
 // Test suite

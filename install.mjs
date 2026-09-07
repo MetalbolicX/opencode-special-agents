@@ -45,11 +45,11 @@ Options:
 // ---------------------------------------------------------------------------
 // SHA-256 helpers
 // ---------------------------------------------------------------------------
-function sha256(data) {
+const sha256 = (data) => {
   return createHash("sha256").update(data).digest("hex");
 }
 
-function sha256File(filePath) {
+const sha256File = (filePath) => {
   return sha256(readFileSync(filePath));
 }
 
@@ -58,7 +58,7 @@ function sha256File(filePath) {
 // ---------------------------------------------------------------------------
 const VALID_COMMANDS = new Set(["install", "uninstall", "update", "status", "doctor", ""]);
 
-export function parseArgs(argv) {
+export const parseArgs = (argv) => {
   const args = { raw: [], command: "install" };
   const it = argv[Symbol.iterator]();
   for (const tok of it) {
@@ -88,7 +88,7 @@ export function parseArgs(argv) {
 // ---------------------------------------------------------------------------
 // Step 2: Source resolution
 // ---------------------------------------------------------------------------
-export function resolveSourceDir({ cwd, sourceArg }) {
+export const resolveSourceDir = ({ cwd, sourceArg }) => {
   if (sourceArg) {
     if (!existsSync(sourceArg)) throw new Error(`Source directory not found: ${sourceArg}`);
     return resolve(sourceArg);
@@ -107,7 +107,7 @@ export function resolveSourceDir({ cwd, sourceArg }) {
   throw new Error("manifest.json not found; run 'pnpm run gen:manifest' first");
 }
 
-export function loadManifest(sourceDir) {
+export const loadManifest = (sourceDir) => {
   const manifestPath = join(sourceDir, "manifest.json");
   if (!existsSync(manifestPath)) throw new Error("manifest.json not found");
   const raw = JSON.parse(readFileSync(manifestPath, "utf-8"));
@@ -122,7 +122,7 @@ export function loadManifest(sourceDir) {
   return raw;
 }
 
-export function verifyPayload(sourceDir, manifest) {
+export const verifyPayload = (sourceDir, manifest) => {
   const errors = [];
   for (const entry of manifest.files) {
     const srcPath = join(sourceDir, entry.source);
@@ -140,7 +140,7 @@ export function verifyPayload(sourceDir, manifest) {
   }
 }
 
-export function verifyPayloadContainment(sourceDir, manifest) {
+export const verifyPayloadContainment = (sourceDir, manifest) => {
   for (const entry of manifest.files) {
     const srcPath = resolve(sourceDir, entry.source);
     if (!srcPath.startsWith(resolve(sourceDir))) {
@@ -149,7 +149,7 @@ export function verifyPayloadContainment(sourceDir, manifest) {
   }
 }
 
-export function validateManifestIdentity(manifest, expectedName) {
+export const validateManifestIdentity = (manifest, expectedName) => {
   if (manifest.name !== expectedName) {
     throw new Error(`Foreign manifest: expected "${expectedName}", got "${manifest.name}"`);
   }
@@ -158,7 +158,7 @@ export function validateManifestIdentity(manifest, expectedName) {
 // ---------------------------------------------------------------------------
 // Step 3: Target resolution
 // ---------------------------------------------------------------------------
-export function resolveTargetDir({ scope, rootArg, cwd, env, home }) {
+export const resolveTargetDir = ({ scope, rootArg, cwd, env, home }) => {
   if (rootArg) return ensureTrailingSlash(resolve(rootArg));
 
   if (scope === "global") {
@@ -172,14 +172,14 @@ export function resolveTargetDir({ scope, rootArg, cwd, env, home }) {
   return ensureTrailingSlash(join(cwd || process.cwd(), ".opencode"));
 }
 
-function ensureTrailingSlash(p) {
+const ensureTrailingSlash = (p) => {
   return p.endsWith("/") ? p : p + "/";
 }
 
 // ---------------------------------------------------------------------------
 // Step 4: Install plan (pure functions)
 // ---------------------------------------------------------------------------
-export function planInstall(manifest, existingFiles, { plugin: pluginEnabled = true } = {}) {
+export const planInstall = (manifest, existingFiles, { plugin: pluginEnabled = true } = {}) => {
   const result = [];
   const existingMap = new Map(existingFiles.map((f) => [f.dest, f]));
 
@@ -201,7 +201,7 @@ export function planInstall(manifest, existingFiles, { plugin: pluginEnabled = t
 // Detect file-level conflicts by comparing current disk SHA vs manifest SHA and state SHA
 // Detect file-level conflicts: file on disk differs from manifest AND from state
 // (user modified a tracked file after install)
-export function detectFileConflict(entry, targetDir, stateSha) {
+export const detectFileConflict = (entry, targetDir, stateSha) => {
   const targetPath = join(targetDir, entry.dest);
   if (!existsSync(targetPath)) return null;
   const diskSha = sha256File(targetPath);
@@ -210,7 +210,7 @@ export function detectFileConflict(entry, targetDir, stateSha) {
   return { disposition: "conflict", diskSha };
 }
 
-export function resolveConflict(disposition, { yes, tty }) {
+export const resolveConflict = (disposition, { yes, tty }) => {
   if (disposition !== "conflict") return disposition;
   if (yes || !tty) return "keep";
 
@@ -235,7 +235,7 @@ export function resolveConflict(disposition, { yes, tty }) {
 // ---------------------------------------------------------------------------
 // Step 5: Transaction apply
 // ---------------------------------------------------------------------------
-export async function applyInstall({ plan, targetDir, sourceDir, dryRun = false, yes = false, tty = false }) {
+export const applyInstall = async ({ plan, targetDir, sourceDir, dryRun = false, yes = false, tty = false }) => {
   if (dryRun) {
     console.log("Dry-run: install plan");
     for (const p of plan) {
@@ -350,7 +350,7 @@ export async function applyInstall({ plan, targetDir, sourceDir, dryRun = false,
   }
 }
 
-function cleanStaleStaging(parentDir) {
+const cleanStaleStaging = (parentDir) => {
   if (!existsSync(parentDir)) return;
   for (const entry of readdirSync(parentDir)) {
     if (entry.startsWith(STAGING_PREFIX)) {
@@ -359,7 +359,7 @@ function cleanStaleStaging(parentDir) {
   }
 }
 
-function doBackup(targetPath, backupDir) {
+const doBackup = (targetPath, backupDir) => {
   mkdirSync(backupDir, { recursive: true });
   const name = targetPath.replace(/^.*\//, "");
   const ts = new Date().toISOString().replace(/[:.]/g, "-");
@@ -375,7 +375,7 @@ function doBackup(targetPath, backupDir) {
   }
 }
 
-function writeStateFile(targetDir, plan) {
+const writeStateFile = (targetDir, plan) => {
   const manifest = plan._manifest || {};
   const state = {
     schemaVersion: 1,
@@ -397,7 +397,7 @@ function writeStateFile(targetDir, plan) {
 // ---------------------------------------------------------------------------
 // Step 6: Unified diff helper
 // ---------------------------------------------------------------------------
-export function unifiedDiff(oldLines, newLines, { context = 3 } = {}) {
+export const unifiedDiff = (oldLines, newLines, { context = 3 } = {}) => {
   if (oldLines.join("\n") === newLines.join("\n")) return "";
   const result = [];
   const oldSet = new Set(oldLines);
@@ -413,7 +413,7 @@ export function unifiedDiff(oldLines, newLines, { context = 3 } = {}) {
 // ---------------------------------------------------------------------------
 // Step 7: Self-install guard
 // ---------------------------------------------------------------------------
-export function detectSelfInstall({ sourceDir, targetDir }) {
+export const detectSelfInstall = ({ sourceDir, targetDir }) => {
   const sourceOpencode = resolve(sourceDir, ".opencode");
   const normalizedTarget = resolve(targetDir);
   if (normalizedTarget === sourceOpencode || normalizedTarget === resolve(sourceDir)) {
@@ -427,7 +427,7 @@ export function detectSelfInstall({ sourceDir, targetDir }) {
 // ---------------------------------------------------------------------------
 // Step 8: Full install orchestration
 // ---------------------------------------------------------------------------
-export async function runInstall(argv) {
+export const runInstall = async (argv) => {
   const args = parseArgs(argv);
   const cwd = process.cwd();
 
@@ -582,7 +582,7 @@ export async function runInstall(argv) {
 // ---------------------------------------------------------------------------
 // Helper: check if target dir is writable
 // ---------------------------------------------------------------------------
-function isTargetWritable(targetDir) {
+const isTargetWritable = (targetDir) => {
   try {
     accessSync(targetDir, constants.W_OK);
     return true;
@@ -594,7 +594,7 @@ function isTargetWritable(targetDir) {
 // ---------------------------------------------------------------------------
 // Helper: check if target dir exists and is writable (for doctor)
 // ---------------------------------------------------------------------------
-function canWriteTarget(targetDir) {
+const canWriteTarget = (targetDir) => {
   try {
     if (!existsSync(targetDir)) {
       // Check if parent is writable
@@ -612,7 +612,7 @@ function canWriteTarget(targetDir) {
 // ---------------------------------------------------------------------------
 // runStatus: show installed files and their state
 // ---------------------------------------------------------------------------
-export async function runStatus(argv) {
+export const runStatus = async (argv) => {
   const args = parseArgs(argv);
   const cwd = process.cwd();
 
@@ -749,7 +749,7 @@ Options:
 // ---------------------------------------------------------------------------
 // runDoctor: diagnose installation health
 // ---------------------------------------------------------------------------
-export async function runDoctor(argv) {
+export const runDoctor = async (argv) => {
   const args = parseArgs(argv);
   const cwd = process.cwd();
 
@@ -913,7 +913,7 @@ Options:
 // ---------------------------------------------------------------------------
 // runUninstall: remove installed files (safety: report-only without state)
 // ---------------------------------------------------------------------------
-export async function runUninstall(argv) {
+export const runUninstall = async (argv) => {
   const args = parseArgs(argv);
   const cwd = process.cwd();
 
@@ -1043,7 +1043,7 @@ Options:
 // ---------------------------------------------------------------------------
 // runUpdate: hash-based reinstall with per-file reporting
 // ---------------------------------------------------------------------------
-export async function runUpdate(argv) {
+export const runUpdate = async (argv) => {
   const args = parseArgs(argv);
   const cwd = process.cwd();
 
@@ -1170,7 +1170,7 @@ Options:
 // ---------------------------------------------------------------------------
 // gitignoreState: add state file to .opencode/.gitignore
 // ---------------------------------------------------------------------------
-export function gitignoreState(targetDir) {
+export const gitignoreState = (targetDir) => {
   // State file lives at targetDir/.opencode-special-agents.json
   // The gitignore for it lives at targetDir/.opencode/.gitignore (project root)
   const opencodeDir = join(targetDir, ".opencode");
@@ -1191,7 +1191,7 @@ export function gitignoreState(targetDir) {
 // ---------------------------------------------------------------------------
 // Main guard
 // ---------------------------------------------------------------------------
-function isMainEntry() {
+const isMainEntry = () => {
   if (!process.argv[1]) return false;
   try {
     const argUrl = pathToFileURL(realpathSync(process.argv[1])).href;

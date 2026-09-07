@@ -51,7 +51,7 @@ const assertions = [];
 let passCount = 0;
 let failCount = 0;
 
-function assert(condition, message) {
+const assert = (condition, message) => {
   if (condition) {
     assertions.push(`  PASS: ${message}`);
     passCount++;

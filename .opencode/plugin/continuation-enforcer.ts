@@ -39,7 +39,7 @@ const inFlightPromises = new Map<string, () => void>();
 // ---------------------------------------------------------------------------
 
 /** True when we are already tracking an in-flight continuation for this session */
-function isInFlight(sessionId: string): boolean {
+const isInFlight = (sessionId: string): boolean => {
   return stateStore.get(sessionId).inFlight;
 }
 
@@ -47,7 +47,7 @@ function isInFlight(sessionId: string): boolean {
  * Check the in-flight promise map and resolve+clear if present.
  * Returns true if this idle event was the synthetic continuation result.
  */
-function resolveInFlight(sessionId: string): boolean {
+const resolveInFlight = (sessionId: string): boolean => {
   const resolve = inFlightPromises.get(sessionId);
   if (resolve !== undefined) {
     resolve();
@@ -58,7 +58,7 @@ function resolveInFlight(sessionId: string): boolean {
   return false;
 }
 
-async function waitForSyntheticIdle(sessionId: string): Promise<void> {
+const waitForSyntheticIdle = async (sessionId: string): Promise<void> => {
   return new Promise<void>((resolve) => {
     inFlightPromises.set(sessionId, resolve);
   });

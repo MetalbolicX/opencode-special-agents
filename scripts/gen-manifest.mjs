@@ -8,7 +8,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // ---------------------------------------------------------------------------
 // SHA-256 helper
 // ---------------------------------------------------------------------------
-function sha256File(filePath) {
+const sha256File = (filePath) => {
   const data = readFileSync(filePath);
   return createHash("sha256").update(data).digest("hex");
 }
@@ -16,7 +16,7 @@ function sha256File(filePath) {
 // ---------------------------------------------------------------------------
 // Safe path validation: ensure a resolved path stays within root
 // ---------------------------------------------------------------------------
-function assertWithinRoot(resolvedPath, rootPath, displayName) {
+const assertWithinRoot = (resolvedPath, rootPath, displayName) => {
   const normalized = resolve(resolvedPath);
   const root = resolve(rootPath);
   if (!normalized.startsWith(root)) {
@@ -27,7 +27,7 @@ function assertWithinRoot(resolvedPath, rootPath, displayName) {
 // ---------------------------------------------------------------------------
 // Walk a directory recursively
 // ---------------------------------------------------------------------------
-function walkDir(dir, root, entries = []) {
+const walkDir = (dir, root, entries = []) => {
   const items = readdirSync(dir);
   for (const item of items) {
     const fullPath = join(dir, item);
@@ -49,7 +49,7 @@ function walkDir(dir, root, entries = []) {
  * @param {string[]} [extraPaths] - Optional extra file paths to include
  * @returns {Manifest}
  */
-export function generateManifest(sourceDir, extraPaths = []) {
+export const generateManifest = (sourceDir, extraPaths = []) => {
   const root = resolve(sourceDir);
   const packageJson = JSON.parse(readFileSync(join(root, "package.json"), "utf-8"));
 

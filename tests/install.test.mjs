@@ -12,7 +12,7 @@ const INSTALL = resolve(__dirname, "../install.mjs");
 // ---------------------------------------------------------------------------
 // Helper: sha256 of file contents
 // ---------------------------------------------------------------------------
-function sha256File(filePath) {
+const sha256File = (filePath) => {
   const data = readFileSync(filePath);
   return createHash("sha256").update(data).digest("hex");
 }
@@ -20,7 +20,7 @@ function sha256File(filePath) {
 // ---------------------------------------------------------------------------
 // Helper: create a complete payload fixture in a tmp directory
 // ---------------------------------------------------------------------------
-function createPayload(tmpDir, opts = {}) {
+const createPayload = (tmpDir, opts = {}) => {
   const { name = "test-pkg", version = "0.1.0", includePlugin = true } = opts;
   mkdirSync(join(tmpDir, ".opencode", "agent"), { recursive: true });
   mkdirSync(join(tmpDir, ".opencode", "command"), { recursive: true });
@@ -37,7 +37,7 @@ function createPayload(tmpDir, opts = {}) {
 // ---------------------------------------------------------------------------
 // Helper: run install.mjs with args in a given cwd
 // ---------------------------------------------------------------------------
-function runInstall(args, opts = {}) {
+const runInstall = (args, opts = {}) => {
   const { cwd = process.cwd(), env = {}, input = undefined } = opts;
   const result = spawnSync(process.execPath, [INSTALL, ...args], {
     cwd,
@@ -368,7 +368,7 @@ describe("Step 5: Transaction apply", () => {
     mkdirSync(targetDir, { recursive: true });
     // Snapshot whole tree
     const snapshot = [];
-    function snapshotDir(dir) {
+    const snapshotDir = (dir) => {
       if (!existsSync(dir)) return;
       for (const f of readdirSync(dir)) {
         const full = join(dir, f);

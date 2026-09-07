@@ -36,7 +36,7 @@ export type ActionableTodo = Extract<Todo, { status: "pending" | "in_progress" }
 // ---------------------------------------------------------------------------
 
 /** Returns only todos whose status is exactly pending or in_progress */
-export function actionableTodoFilter(todos: Todo[]): ActionableTodo[] {
+export const actionableTodoFilter = (todos: Todo[]): ActionableTodo[] => {
   return todos.filter(
     (t): t is ActionableTodo => t.status === "pending" || t.status === "in_progress"
   );
@@ -50,7 +50,7 @@ export function actionableTodoFilter(todos: Todo[]): ActionableTodo[] {
  * Produces a deterministic, order-independent fingerprint from actionable todos.
  * Uses a stable property sort so the hash does not depend on array ordering.
  */
-export function fingerprint(actionableTodos: ActionableTodo[]): string {
+export const fingerprint = (actionableTodos: ActionableTodo[]): string => {
   if (actionableTodos.length === 0) return "empty";
 
   const parts = [...actionableTodos]
@@ -61,7 +61,7 @@ export function fingerprint(actionableTodos: ActionableTodo[]): string {
 }
 
 /** Simple djb2-style string hash — pure, no external deps */
-export function hashString(s: string): string {
+export const hashString = (s: string): string => {
   let h = 5381;
   for (let i = 0; i < s.length; i++) {
     h = ((h << 5) + h) ^ s.charCodeAt(i);
@@ -102,7 +102,7 @@ export const MAX_CONTINUATIONS = 1;
  * - same fingerprint (unchanged state) → deny
  * - already consumed the one nudge → deny
  */
-export function decision(guard: GuardState): Decision {
+export const decision = (guard: GuardState): Decision => {
   if (guard.continuationCount >= MAX_CONTINUATIONS) {
     return { allowed: false, reason: "continuation_exhausted" };
   }

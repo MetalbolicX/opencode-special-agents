@@ -11,12 +11,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const INSTALL = resolve(__dirname, "../install.mjs");
 const PKG_NAME = "opencode-special-agents";
 
-function sha256File(filePath) {
+const sha256File = (filePath) => {
   const data = readFileSync(filePath);
   return createHash("sha256").update(data).digest("hex");
-}
+};
 
-function createPayload(tmpDir, opts = {}) {
+const createPayload = (tmpDir, opts = {}) => {
   const { version = "0.1.0", includePlugin = true } = opts;
   mkdirSync(join(tmpDir, ".opencode", "agent"), { recursive: true });
   mkdirSync(join(tmpDir, ".opencode", "command"), { recursive: true });
@@ -27,9 +27,9 @@ function createPayload(tmpDir, opts = {}) {
   if (includePlugin) {
     writeFileSync(join(tmpDir, "dist", "plugin", "continuation-enforcer.js"), "const p = {}; export default p;\n");
   }
-}
+};
 
-function createManifest(tmpDir, opts = {}) {
+const createManifest = (tmpDir, opts = {}) => {
   const { version = "0.1.0", includePlugin = true } = opts;
   const sisyphusSha = sha256File(join(tmpDir, ".opencode", "agent", "sisyphus.md"));
   const planSha = sha256File(join(tmpDir, ".opencode", "command", "plan.md"));
@@ -48,9 +48,9 @@ function createManifest(tmpDir, opts = {}) {
   }
   writeFileSync(join(tmpDir, "manifest.json"), JSON.stringify(manifest, null, 2) + "\n");
   return manifest;
-}
+};
 
-function runInstall(args, opts = {}) {
+const runInstall = (args, opts = {}) => {
   const { cwd = process.cwd(), env = {}, input = undefined } = opts;
   const result = spawnSync(process.execPath, [INSTALL, ...args], {
     cwd,
@@ -63,13 +63,13 @@ function runInstall(args, opts = {}) {
     status: result.status,
     signal: result.signal,
   };
-}
+};
 
-function doInstall(sourceDir, targetDir) {
+const doInstall = (sourceDir, targetDir) => {
   return runInstall(["--source", sourceDir, "--root", targetDir, "--yes"], { cwd: sourceDir });
-}
+};
 
-function listFiles(dir, base = "") {
+const listFiles = (dir, base = "") => {
   if (!existsSync(dir)) return [];
   const entries = readdirSync(dir, { withFileTypes: true });
   const result = [];
@@ -82,7 +82,7 @@ function listFiles(dir, base = "") {
     }
   }
   return result;
-}
+};
 
 // ---------------------------------------------------------------------------
 // Step 1: uninstall happy path
