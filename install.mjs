@@ -2,7 +2,7 @@
 // install.mjs — Plan 005+006: zero-third-party-dependency ESM installer
 
 import { createHash } from "node:crypto";
-import { readFileSync, writeFileSync, mkdirSync, rmSync, copyFileSync, statSync, existsSync, readdirSync, accessSync, constants } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, rmSync, copyFileSync, statSync, existsSync, readdirSync, accessSync, constants, realpathSync } from "node:fs";
 import { join, resolve, relative, dirname, isAbsolute } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -1173,7 +1173,17 @@ export function gitignoreState(targetDir) {
 // ---------------------------------------------------------------------------
 // Main guard
 // ---------------------------------------------------------------------------
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+function isMainEntry() {
+  if (!process.argv[1]) return false;
+  try {
+    const argUrl = pathToFileURL(realpathSync(process.argv[1])).href;
+    const modUrl = pathToFileURL(realpathSync(fileURLToPath(import.meta.url))).href;
+    return argUrl === modUrl;
+  } catch {
+    return false;
+  }
+}
+if (isMainEntry()) {
   const argv = process.argv.slice(2);
   const args = parseArgs(argv);
 
