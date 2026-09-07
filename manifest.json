@@ -1,0 +1,79 @@
+{
+  "name": "opencode-special-agents",
+  "version": "0.1.0",
+  "schemaVersion": 1,
+  "files": [
+    {
+      "source": ".opencode/agent/hephaestus.md",
+      "dest": "agent/hephaestus.md",
+      "kind": "agent",
+      "sha256": "24a9af76d379f9a8e36281e9836e9b15a3d5894f318f43155f81dc15a530db59"
+    },
+    {
+      "source": ".opencode/agent/librarian.md",
+      "dest": "agent/librarian.md",
+      "kind": "agent",
+      "sha256": "03bf6dff1fcc30a25879082eec7b098b486ec6775c1a47dc6891d349f199a27e"
+    },
+    {
+      "source": ".opencode/agent/metis.md",
+      "dest": "agent/metis.md",
+      "kind": "agent",
+      "sha256": "c2d8038dc7f083aa8f0f6f3d047448cc4eff2bf97e6adbe6cf85d99809466ac5"
+    },
+    {
+      "source": ".opencode/agent/momus.md",
+      "dest": "agent/momus.md",
+      "kind": "agent",
+      "sha256": "f41f483eeaa62591a50193a5537c922c1b58a805b925d71991a79a4b58f3d7cf"
+    },
+    {
+      "source": ".opencode/agent/oracle.md",
+      "dest": "agent/oracle.md",
+      "kind": "agent",
+      "sha256": "8f38c0b73d384791379451018d3fff8634a8e832302b36b6bbe373f6a157d5d2"
+    },
+    {
+      "source": ".opencode/agent/prometheus.md",
+      "dest": "agent/prometheus.md",
+      "kind": "agent",
+      "sha256": "7cc19203dfd0a42a42ae78a0e74611e4a711f0f7a8fb33235539949e69f4ef88"
+    },
+    {
+      "source": ".opencode/agent/scout.md",
+      "dest": "agent/scout.md",
+      "kind": "agent",
+      "sha256": "6e869d535142cca1535b73cb487d7a86cea444e34925ea70f48be30491702818"
+    },
+    {
+      "source": ".opencode/agent/sisyphus.md",
+      "dest": "agent/sisyphus.md",
+      "kind": "agent",
+      "sha256": "6ae437293ec75c3ab95599ae4abb13c96696ae4b3956a6af5291d271dd158942"
+    },
+    {
+      "source": ".opencode/command/plan.md",
+      "dest": "command/plan.md",
+      "kind": "command",
+      "sha256": "c2c7eae01b13022accf79eadba33700df6f6fa3a48097d3305b6e476a1012750"
+    },
+    {
+      "source": ".opencode/command/review-plan.md",
+      "dest": "command/review-plan.md",
+      "kind": "command",
+      "sha256": "7a92bfd85c7dffeb648278f539cebc92053a1c1fee3dacb7a42f39bca0ac9d76"
+    },
+    {
+      "source": ".opencode/command/ultrawork.md",
+      "dest": "command/ultrawork.md",
+      "kind": "command",
+      "sha256": "176eda312dd7c1e12abd6c7b3e526b0356d365fd2e220c04a53c76edbfa8426f"
+    },
+    {
+      "source": "dist/plugin/continuation-enforcer.js",
+      "dest": "plugin/continuation-enforcer.js",
+      "kind": "plugin",
+      "sha256": "01e02101bdc71d85850e0fb6da497e082c33f1b6859ad716aff30869b06ec897"
+    }
+  ]
+}
