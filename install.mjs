@@ -833,10 +833,12 @@ Options:
       files.push({ dest: f.dest, state: fileState });
     }
   } else if (manifest && Array.isArray(manifest.files)) {
+    let missingCount = 0;
     for (const f of manifest.files) {
       const targetPath = join(targetDir, f.dest);
       if (!existsSync(targetPath)) {
         files.push({ dest: f.dest, state: "missing" });
+        missingCount++;
       } else {
         const diskSha = sha256File(targetPath);
         if (diskSha !== f.sha256) {
@@ -846,6 +848,14 @@ Options:
           files.push({ dest: f.dest, state: "installed" });
         }
       }
+    }
+    // No state: missing files mean package is not installed
+    if (missingCount > 0) {
+      const msg = missingCount === manifest.files.length
+        ? "Package is not installed in this scope. Run: install <scope>"
+        : "Package is partially installed in this scope. Some files are missing. Run: install <scope> to rebuild state.";
+      diagnostics.push({ level: "warn", code: "INSTALL_MISSING", message: msg });
+      exitCode = 1;
     }
   }
 
