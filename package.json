@@ -4,15 +4,18 @@
   "description": "Specialized AI agents and commands for OpenCode",
   "type": "module",
   "engines": {
-    "node": ">=20"
+    "node": ">=20",
+    "pnpm": ">=9"
   },
+  "packageManager": "pnpm@11.25.0",
   "devDependencies": {
     "@opencode-ai/plugin": "1.18.29",
     "rolldown": "1.0.0"
   },
   "scripts": {
-    "build": "rolldown -c && node scripts/verify-build.mjs",
+    "build": "pnpm exec rolldown -c && node scripts/verify-build.mjs",
     "gen:manifest": "node scripts/gen-manifest.mjs",
-    "test:plugin": "bun test tests/continuation-state.test.ts"
+    "test:plugin": "bun test tests/continuation-state.test.ts",
+    "test": "node --test tests/*.test.mjs && bun test tests/continuation-state.test.ts"
   }
 }

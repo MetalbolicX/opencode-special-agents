@@ -44,7 +44,7 @@ default-ON plugin decision (D2) that contradicts the current opt-in docs.
 
 | Purpose | Command | Expected on success |
 |---|---|---|
-| Full build+manifest+tests | `npm run build && npm run gen:manifest && npm test` | exit 0 |
+| Full build+manifest+tests | `pnpm run build && pnpm run gen:manifest && pnpm test` | exit 0 |
 | Pack inspection | `npm pack --dry-run 2>&1 \| tee /tmp/pack.log` | file list contains required entries |
 | Publish (owner-approved) | `npm publish` (or `npm publish --access public` if scoped) | exit 0 |
 
@@ -75,7 +75,7 @@ default-ON plugin decision (D2) that contradicts the current opt-in docs.
 
 - `files`: `["dist/", ".opencode/agent/", ".opencode/command/", "install.mjs",
   "manifest.json", "README.md", "LICENSE"]`.
-- `prepack`: `npm run build && npm run gen:manifest && npm test`.
+- `prepack`: `pnpm run build && pnpm run gen:manifest && pnpm test`.
 - `test`: `node --test tests/ && bun test tests/continuation-state.test.ts`.
 - `postinstall`: node inline script that (a) prints the two install commands
   (project: `npx <name> install`, global: `npx <name> install --scope global`)
@@ -94,7 +94,7 @@ assert presence of: `dist/plugin/continuation-enforcer.js`, all 8
 `install.mjs`, `LICENSE`; assert total file count < 40 (no leakage of tests/
 plans/ docs/ node_modules/).
 Add script `verify:pack`.
-Verify: `npm run verify:pack` → exit 0 with the assertion summary.
+Verify: `pnpm run verify:pack` → exit 0 with the assertion summary.
 
 ### Step 3: Update the plugin header contract (comment only)
 
@@ -163,7 +163,7 @@ Verify: `opencode agent list` output includes `sisyphus` and `oracle`.
 
 No new unit tests (by design — method is verification gates). The regression
 suite must stay green after every step:
-`npm test` (node:test suites + bun plugin tests).
+`pnpm test` (node:test suites + bun plugin tests).
 
 ## Done criteria
 

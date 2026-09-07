@@ -63,10 +63,10 @@ Files that do NOT exist yet: root `package.json`, `rolldown.config.mjs`,
 |---|---|---|
 | Node version | `node --version` | >= v20 |
 | Bun version | `bun --version` | any (dev tool) |
-| Build | `npm run build` | exit 0, exactly 1 file in dist/ |
+| Build | `pnpm run build` | exit 0, exactly 1 file in dist/ |
 | Plugin tests | `bun test tests/continuation-state.test.ts` | 29 pass, 0 fail |
 | Manifest tests | `node --test tests/manifest.test.mjs` | all pass |
-| Generate manifest | `npm run gen:manifest` | exit 0, manifest.json updated |
+| Generate manifest | `pnpm run gen:manifest` | exit 0, manifest.json updated |
 
 ## Scope
 
@@ -120,7 +120,7 @@ Fields: `name` (from Step 1), `version: "0.1.0"`, `description`, `type:
 links bin targets at install time and `install.mjs` only exists after Plan
 005 Step 8. No `files[]`, no publish scripts yet (Plan 007).
 
-Verify: `npm install` exits 0; `node -e "console.log(require('./package.json').name)"`.
+Verify: `pnpm install` exits 0; `node -e "console.log(require('./package.json').name)"`.
 
 ### Step 3: Add the rolldown build with a single-artifact assertion
 
@@ -129,9 +129,9 @@ output `dist/plugin/continuation-enforcer.js`, format `es`.
 `scripts/verify-build.mjs`: assert (a) `dist/` contains EXACTLY one file,
 (b) the artifact contains no top-level `import` statements
 (regex `/^import\s/m` must not match — zero runtime deps proof),
-(c) file size > 0. `npm run build` = `rolldown -c && node scripts/verify-build.mjs`.
+(c) file size > 0. `pnpm run build` = `pnpm exec rolldown -c && node scripts/verify-build.mjs`.
 
-Verify: `npm run build` → exit 0; `find dist -type f | wc -l` → `1`.
+Verify: `pnpm run build` → exit 0; `find dist -type f | wc -l` → `1`.
 
 ### Step 4: Smoke-execute the artifact under Bun
 
@@ -194,7 +194,7 @@ This red state is required before Step 6.
 `scripts/gen-manifest.mjs`: export `generateManifest(sourceDir)` (pure:
 walks `.opencode/agent`, `.opencode/command`, `dist/plugin`; computes sha256;
 validates containment; returns the object) plus a `main` guard that writes
-`manifest.json` at the repo root. `npm run gen:manifest` = `node scripts/gen-manifest.mjs`.
+`manifest.json` at the repo root. `pnpm run gen:manifest` = `node scripts/gen-manifest.mjs`.
 
 Verify: `node --test tests/manifest.test.mjs` → all pass (green).
 
@@ -218,7 +218,7 @@ Verify: `node -e "const m=require('./manifest.json'); console.log(m.files.length
 
 ## Done criteria
 
-- [ ] `npm run build` exits 0 and emits exactly one file under `dist/`
+- [ ] `pnpm run build` exits 0 and emits exactly one file under `dist/`
 - [ ] `bun scripts/smoke-dist.mjs` prints `SMOKE OK`
 - [ ] `node --test tests/manifest.test.mjs` all pass (TDD evidence: red first)
 - [ ] `manifest.json` exists, `files.length === 12`, hashes spot-checked
