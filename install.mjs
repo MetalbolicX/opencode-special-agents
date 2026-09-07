@@ -570,6 +570,10 @@ export async function runInstall(argv) {
 
   if (dryRun) {
     console.log("Dry-run complete — no files written.");
+  } else {
+    const scope = args.scope || "project";
+    const totalFiles = plan.length;
+    console.log(`Installed ${totalFiles} files (${scope}) at ${targetDir}; restart OpenCode to load them.`);
   }
 
   return { status: 0 };
@@ -1154,6 +1158,10 @@ Options:
 
   if (dryRun) {
     console.log("Dry-run complete — no files written.");
+  } else if (!hadKeptConflicts) {
+    const scope = args.scope || "project";
+    const totalFiles = plan.length;
+    console.log(`Installed ${totalFiles} files (${scope}) at ${targetDir}; restart OpenCode to load them.`);
   }
 
   return { status: hadKeptConflicts ? 1 : 0 };
