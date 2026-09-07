@@ -18,8 +18,8 @@
   "scripts": {
     "build": "pnpm exec rolldown -c && node scripts/verify-build.mjs",
     "gen:manifest": "node scripts/gen-manifest.mjs",
-    "test:installer": "node --test tests/install.test.mjs",
+    "test:installer": "node --test tests/install.test.mjs tests/cli-extra.test.mjs",
     "test:plugin": "bun test tests/continuation-state.test.ts",
-    "test": "node --test tests/*.test.mjs && bun test tests/continuation-state.test.ts"
+    "test": "node --test tests/install.test.mjs tests/cli-extra.test.mjs && bun test tests/continuation-state.test.ts"
   }
 }
