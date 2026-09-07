@@ -27,6 +27,7 @@
     "test": "node --test tests/*.test.mjs && bun test tests/continuation-state.test.ts",
     "prepack": "pnpm run build && pnpm run gen:manifest && pnpm test",
     "verify:pack": "node scripts/verify-pack.mjs",
+    "publish": "pnpm publish",
     "postinstall": "node -e \"const n=require('./package.json').name;console.log('Project install: npx '+n+' install');console.log('Global install:  npx '+n+' install --scope global');if(process.env.OPENCODE_SPECIAL_AGENTS_AUTO_INSTALL===\\\"1\\\"){try{require('child_process').spawnSync('node',['install.mjs','install','--scope','global','--plugin','on','--yes'],{stdio:'inherit'})}catch(e){console.log('WARNING: auto-install failed: '+e.message+'; run \\'npx '+n+' install\\' manually');process.exit(0)}}\""
   },
   "devDependencies": {
