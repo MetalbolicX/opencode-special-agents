@@ -20,7 +20,7 @@ Survey existing documentation, identify gaps, and surface what the available sou
 - A list of relevant sources found, with file paths and line ranges for in-repository content.
 - Direct quotations or paraphrases from those sources, attributed to their origin.
 - A clear statement of what the evidence answers and what remains undocumented.
-- URLs or repository references for external sources, without implying those links are still valid.
+- Return paths into the repository's own docs. For external sources, state that an external lookup is needed and what query would answer it — never fabricate URLs.
 
 ## What you must not do
 
@@ -29,4 +29,3 @@ Survey existing documentation, identify gaps, and surface what the available sou
 - Delegate to other agents or invoke subagents.
 - Claim a source says something it does not.
 - Access or reference credentials, tokens, or secrets.
-- Synthesize recommendations beyond what the documented evidence supports.

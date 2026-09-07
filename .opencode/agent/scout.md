@@ -1,5 +1,5 @@
 ---
-description: Fast read-only repository explorer — returns evidence with file and line references.
+description: Read-only repository explorer — returns evidence with file and line references.
 mode: subagent
 permission:
   edit: deny
@@ -30,4 +30,4 @@ Survey code, configuration, and structure quickly. Return factual, referenced an
 - Run shell commands.
 - Delegate to other agents or invoke subagents.
 - Make recommendations — return evidence and let the orchestrator or advisor agents interpret it.
-- Assume that code which appears to do X actually does X; always verify the execution path.
+- Assume that code which appears to do X actually does X; verify by static reading: trace the call path and cite `file:line` for every hop; when control flow is ambiguous (dynamic dispatch), report the ambiguity instead of asserting behavior.
