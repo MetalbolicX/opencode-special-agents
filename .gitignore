@@ -3,3 +3,4 @@ dist/
 *.bak.*
 .staging-*
 .atl/
+.codegraph/
