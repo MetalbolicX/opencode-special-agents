@@ -15,6 +15,7 @@ no commit SHA for drift comparison.
 | 005 | Implement the install transaction with strict TDD | P1 | L | 004 | DONE |
 | 006 | Implement uninstall, update, status, and doctor with strict TDD | P1 | L | 005 | DONE |
 | 007 | Release engineering, documentation, and publish | P2 | M | 006 | IN PROGRESS |
+| 008 | Tighten agent and command prompt text (anti-hallucination) | P2 | M | - | DONE |
 
 Status values: `TODO`, `IN PROGRESS`, `DONE`, `BLOCKED`, `REJECTED`.
 
